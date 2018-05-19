@@ -8,10 +8,11 @@
 
 #include "MathUtil.h"
 #include <cmath>
+#include <opencv2/core/cvdef.h>
 
 const at::real MathUtil::epsilon = AT_EPSILON;
-const at::real MathUtil::twopi_inv = 0.5/M_PI;
-const at::real MathUtil::twopi = 2.0*M_PI;
+const at::real MathUtil::twopi_inv = 0.5/CV_PI;
+const at::real MathUtil::twopi = 2.0*CV_PI;
 
 at::real MathUtil::fabs(at::real f) {
   return std::fabs(f);
@@ -160,12 +161,12 @@ at::real MathUtil::atan2(at::real y, at::real x) {
     if (x>=0) {
       return atn;
     }
-    return M_PI+atn;
+    return CV_PI +atn;
   }
   if (x>=0) {
     return atn;
   }
-  return -at::real(M_PI)+atn;
+  return -at::real(CV_PI)+atn;
 
 }
 
@@ -178,9 +179,9 @@ at::real MathUtil::atan(at::real x) {
     return atan_mag1(x);
   } 
   if (x < 0) {
-    return -M_PI/2-atan_mag1(1/x);
+    return -CV_PI/2-atan_mag1(1/x);
   } else {
-    return M_PI/2-atan_mag1(1/x);
+    return CV_PI/2-atan_mag1(1/x);
   }
 
 }

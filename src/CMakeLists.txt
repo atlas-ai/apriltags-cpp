@@ -11,29 +11,30 @@ add_library(apriltags
   UnionFindSimple.cpp
 )
 
+target_link_libraries(apriltags ${OPENCV_LDFLAGS})
+
+set_target_properties(apriltags PROPERTIES PREFIX "lib")
+set_target_properties(apriltags PROPERTIES DEBUG_POSTFIX "d")
+
 set(AT_LIBS apriltags ${OPENCV_LDFLAGS})
 
-target_link_libraries(apriltags ${AT_LIBS})
+if(NOT WIN32)
+	add_executable(camtest camtest.cpp)
+	target_link_libraries(camtest ${AT_LIBS})
 
-add_executable(camtest camtest.cpp)
-target_link_libraries(camtest ${AT_LIBS})
+	add_executable(tagtest tagtest.cpp)
+	target_link_libraries(tagtest ${AT_LIBS})
 
-add_executable(tagtest tagtest.cpp)
-target_link_libraries(tagtest ${AT_LIBS})
+	add_executable(quadtest quadtest.cpp)
+	target_link_libraries(quadtest ${AT_LIBS})
 
-add_executable(quadtest quadtest.cpp)
-target_link_libraries(quadtest ${AT_LIBS})
+	if(GLUT_LIBRARY)
+	  add_executable(gltest gltest.cpp)
+	  target_link_libraries(gltest ${GLUT_LIBRARY} ${OPENGL_LIBRARY} ${AT_LIBS})
+	endif()
 
-if (GLUT_LIBRARY)
-
-  add_executable(gltest gltest.cpp)
-  target_link_libraries(gltest ${GLUT_LIBRARY} ${OPENGL_LIBRARY} ${AT_LIBS})
-
+	if(CAIRO_FOUND)
+	  add_executable(maketags maketags.cpp)
+	  target_link_libraries(maketags ${CAIRO_LIBRARIES} ${AT_LIBS} ${CAIRO_LIBS})
+	endif() 
 endif()
-
-if (CAIRO_FOUND)
-
-  add_executable(maketags maketags.cpp)
-  target_link_libraries(maketags ${CAIRO_LIBRARIES} ${AT_LIBS} ${CAIRO_LIBS})
-
-endif() 

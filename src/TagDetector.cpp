@@ -20,7 +20,7 @@
 
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
-
+#include <opencv2/core/cvdef.h>
 #ifdef HAVE_CGAL
 #include <CGAL/Simple_cartesian.h>
 #include <CGAL/Polygon_2.h>
@@ -44,7 +44,7 @@ static const at::real kDefaultSigma = 0;
 static const at::real kDefaultSegSigma = 0.8;
 static const bool     kDefaultSegDecimate = false;
 static const at::real kDefaultMinMag = 0.004;
-static const at::real kDefaultMaxEdgeCost = 30*M_PI/180;
+static const at::real kDefaultMaxEdgeCost = 30*CV_PI/180;
 static const at::real kDefaultThetaThresh = 100;
 static const at::real kDefaultMagThresh = 1200;
 static const at::real kDefaultMinimumLineLength = 4;
@@ -247,7 +247,7 @@ TagDetector::TagDetector(const TagFamily& f,
 
 at::real TagDetector::arctan2(at::real y, at::real x) {
 
-  at::real coeff_1 = at::real(M_PI/4);
+  at::real coeff_1 = at::real(CV_PI/4);
   at::real coeff_2 = 3*coeff_1;
   at::real abs_y = fabs(y)+MathUtil::epsilon;      // kludge to prevent 0/0 condition
   
@@ -1091,9 +1091,9 @@ void TagDetector::getQuads_AT(const Images& images,
       at::real tminab = std::min(tmina, tminb + bshift);
       at::real tmaxab = std::max(tmaxa, tmaxb + bshift);
 
-      if (tmaxab - tminab > 2*M_PI) {
+      if (tmaxab - tminab > 2*CV_PI) {
         // corner case that's probably not useful to handle correctly. oh well.
-        tmaxab = tminab + 2*M_PI;
+        tmaxab = tminab + 2*CV_PI;
       }
 
       at::real mmaxab = std::max(mmax[ida], mmax[idb]);
@@ -1244,7 +1244,7 @@ void TagDetector::getQuads_AT(const Images& images,
     }
 
     if (flip > noflip) {
-      seg->theta += M_PI;
+      seg->theta += CV_PI;
     }
 
     at::real dot = dx*cos(seg->theta) + dy*sin(seg->theta);
@@ -2006,8 +2006,8 @@ bool TagDetector::decodeQuad(const Images& images,
     d.hxy = quad.opticalCenter;
 
     if (true) {
-      at::real c = cos(d.rotation*M_PI/2.0);
-      at::real s = sin(d.rotation*M_PI/2.0);
+      at::real c = cos(d.rotation*CV_PI/2.0);
+      at::real s = sin(d.rotation*CV_PI/2.0);
       at::real R[9] = { 
         c, -s, 0, 
         s,  c, 0, 
