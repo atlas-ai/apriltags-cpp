@@ -9,6 +9,8 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
 if(WIN32)
 	set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/build)
+	set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${LIBRARY_OUTPUT_PATH})
+	set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${LIBRARY_OUTPUT_PATH})
 else()
 	set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 endif()
@@ -54,6 +56,11 @@ if (${CGAL_FOUND})
 	include( ${CGAL_USE_FILE} )
 	add_definitions(-DHAVE_CGAL)
 	find_package( Boost REQUIRED )
+	
+	if(MSVC)
+		add_definitions("/EHsc") # To work with boost header only
+								 # otherwise may give linking error
+	endif(MSVC)
 else()
 	message("CGAL not found, can not use new quad detector")
 endif()

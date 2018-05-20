@@ -58,10 +58,11 @@ typedef std::map<AlgorithmStep, TimingInfo> TimingLookup;
 //////////////////////////////////////////////////////////////////////
 // Class for profiling
 
-typedef std::chrono::high_resolution_clock Time;
-typedef std::chrono::microseconds Ms;
+
 
 class Profiler {
+	typedef std::chrono::high_resolution_clock Time;
+	typedef std::chrono::microseconds Ms;
 
 private:
 	std::chrono::time_point<Time, Ms> init;
