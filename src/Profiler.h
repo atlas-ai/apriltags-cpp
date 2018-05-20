@@ -11,7 +11,7 @@
 
 #include <map>
 #include <chrono>
-
+#include<iostream>
 
 // Lightweight classes/structs used for profiling AprilTags.
 
@@ -61,12 +61,12 @@ typedef std::map<AlgorithmStep, TimingInfo> TimingLookup;
 // platforms where gettimeofday is not available.
 
 typedef std::chrono::high_resolution_clock Time;
-typedef std::chrono::seconds Sec;
+typedef std::chrono::microseconds Ms;
 
 class Profiler {
 
 private:
-	std::chrono::time_point<Time, Sec> init;
+	std::chrono::time_point<Time, Ms> init;
 
 public:
   
@@ -79,13 +79,13 @@ public:
 
 
   double getTimeAsDouble() {
-	  auto now = std::chrono::time_point_cast<Sec>(Time::now());
+	  auto now = std::chrono::time_point_cast<Ms>(Time::now());
 	  return (now - init).count();
   }
 
   void start(int step, int substep, const char* desc) {
 
-    init = std::chrono::time_point_cast<Sec>(Time::now());
+    init = std::chrono::time_point_cast<Ms>(Time::now());
 
     std::pair<TimingLookup::iterator, bool> info =
       timers.insert(std::make_pair(AlgorithmStep(step, substep), TimingInfo()));

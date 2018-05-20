@@ -65,7 +65,7 @@ void TagDetector::reportTimers() {
   std::cout << "report averaged over " << prof.num_iterations << " frames with " << prof.num_detections << " detections (" << (double(prof.num_detections)/prof.num_iterations) << " per frame)\n\n";
 
   for (TimingLookup::const_iterator i=prof.timers.begin(); i!=prof.timers.end(); ++i) {
-    int usec = 1e6 * i->second.run / prof.num_iterations;
+    int usec = i->second.run / prof.num_iterations;
     std::cout << std::setw(12) << usec << " usec";
     if (i->first.step) { std::cout << "  "; }
     if (i->first.substep) { std::cout << "  "; }
