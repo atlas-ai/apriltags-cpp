@@ -57,8 +57,7 @@ struct TimingInfo {
 typedef std::map<AlgorithmStep, TimingInfo> TimingLookup;
 
 //////////////////////////////////////////////////////////////////////
-// Class for profiling. You may need to replace getTimeAsDouble on
-// platforms where gettimeofday is not available.
+// Class for profiling
 
 typedef std::chrono::high_resolution_clock Time;
 typedef std::chrono::microseconds Ms;
