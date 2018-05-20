@@ -11,7 +11,6 @@
 
 #include <map>
 #include <chrono>
-#include<iostream>
 
 // Lightweight classes/structs used for profiling AprilTags.
 
