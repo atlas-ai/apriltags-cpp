@@ -16,6 +16,11 @@ target_link_libraries(apriltags ${OPENCV_LDFLAGS})
 set_target_properties(apriltags PROPERTIES PREFIX "lib")
 set_target_properties(apriltags PROPERTIES DEBUG_POSTFIX "d")
 
+if(WIN32)
+	target_compile_options(apriltags PRIVATE "$<$<CONFIG:DEBUG>:-O>")
+	target_compile_options(apriltags PRIVATE "$<$<CONFIG:RELEASE>:-O2>")
+endif()
+
 set(AT_LIBS apriltags ${OPENCV_LDFLAGS})
 
 if(NOT WIN32)
